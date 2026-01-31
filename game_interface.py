@@ -1,6 +1,7 @@
 import pygame
 from helper.draw_button import Button
 from helper.draw_titles import Titles
+from game_logic import Game
 
 class Windows:
     def __init__(self, CAPTION):
@@ -13,9 +14,15 @@ class Windows:
         self.clock = pygame.time.Clock()
         self.__running = False
 
+        # Importando JUEGO
+        self.game = Game()
+        #self.game.create_unicursal_maze(4, 2)
+        self.maze_timeout = 0
+        self.show_maze = False
+
         # Imagenes Pantalla Juego y Seleccion De Dificultad
-        self.img_choose_difficulty = pygame.image.load("src/img_background/Difficulty/1280x720/Static_img.png").convert_alpha()
-        self.img_game = pygame.image.load("src/img_background/Game/1280x720/Game_img.png").convert_alpha()
+        self.img_choose_difficulty = pygame.image.load("src/img_background/Difficulty/Static_img.png").convert_alpha()
+        self.img_game = pygame.image.load("src/img_background/Game/Game_img.png").convert_alpha()
         self.img_option = pygame.image.load("src/img_background/Option/Option_img.png").convert_alpha()
 
         # Configuracion Extra Lobby
@@ -76,12 +83,11 @@ class Windows:
         self.all_difficulty_buttons.add(easy_button, hard_button, back_button)
 
         # Botones Opciones Inicio
-
         self.title_options = Titles(390, 30, "src/img_titles_background/option.png")
 
         self.all_options_buttons.add(back_button)
 
-        # Botones Opciones 
+        # Botones Opciones
         #self.img_icon_settings = "src/img_button/icon_settings.png"
         #self.icon_settings = Button(1226, 8, self.img_icon_settings, self.img_icon_settings)
 
@@ -98,7 +104,6 @@ class Windows:
             img_path = f"src/img_background/Init/1280x720/Animation_img_{x}.png"
             img = pygame.image.load(img_path).convert_alpha()
             self.animation_list.append(img)
-
 
     def move_animation(self):
         self.current_time = pygame.time.get_ticks()
@@ -117,6 +122,8 @@ class Windows:
             state_menu = self.all_difficulty_buttons
         elif self.result_value == "OPTIONS":
             state_menu = self.all_options_buttons
+        elif self.result_value == "EASY":
+            self.game.event_to_change(event, self.show_maze)
 
         if state_menu:
             for event_btn in state_menu:
@@ -124,6 +131,11 @@ class Windows:
 
                 if new_state is not None:
                     self.result_value = new_state
+                
+                if new_state == "EASY":
+                    self.game.create_unicursal_maze(8, 2)
+                    self.show_maze = True
+                    self.maze_timeout = pygame.time.get_ticks() + 5000
 
 
         if event.type == pygame.QUIT or self.result_value == "QUIT":
@@ -139,18 +151,37 @@ class Windows:
             self.surface.fill("black")
 
             if self.result_value == "Main_Menu":
+
                 self.move_animation()
                 self.surface.blit(self.animation_list[self.frame], (0, 0))
                 self.title_init.draw(self.surface)
                 self.all_lobby_buttons.draw(self.surface)
+
             elif self.result_value == "MENU_DIFFICULTY":
+
                 self.surface.blit(self.img_choose_difficulty, (0, 0))
                 self.title_difficulty.draw(self.surface)
                 self.all_difficulty_buttons.draw(self.surface)
+
             elif self.result_value == "OPTIONS":
+
                 self.surface.blit(self.img_option, (0, 0))
                 self.title_options.draw(self.surface)
                 self.all_options_buttons.draw(self.surface)
+
+            elif self.result_value == "EASY":
+
+                self.surface.blit(self.img_game, (0,0))
+                tiempo_actual = pygame.time.get_ticks()
+
+                if self.show_maze:
+                    if tiempo_actual < self.maze_timeout:
+                        self.game.draw_maze(self.surface)
+                    else:
+                        self.show_maze = False
+                else:
+                    self.game.draw_maze_to_solve(self.surface)
+                    
 
             for event in pygame.event.get():
                 self.on_event(event)

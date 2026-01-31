@@ -1,3 +1,5 @@
 #Aguilera's DevPendencies
 .venv/
 .vscode/
+__pycache__/
+
