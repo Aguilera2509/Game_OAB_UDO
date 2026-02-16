@@ -7,6 +7,32 @@ class Game:
         self.maze_to_solve = []
         self.colliders = []
 
+        self.easy_levels = [
+            (), # 0 self.level start at 1
+            (), # 1 self.level start at 1 but is calling out of the class Game at the on_event(event)
+            (3, 2), # Start here
+            (4, 2), (4, 2), (4, 3),
+            (2, 2) # Avoid Errors
+        ]
+
+        self.medium_levels = [
+            (), # 0 self.level start at 1
+            (), # 1 self.level start at 1 but is calling out of the class Game at the on_event(event)
+            (4, 3), # Start here
+            (4, 3), (4, 3),
+            (5, 3), (5, 3), (5, 3), (5, 3), (5, 4), (5, 4),
+            (2, 2) #Avoid Errors
+        ]
+
+        self.hard_levels = [
+            (),
+            (),
+            (4, 4), (5, 4), 
+            (5, 4), (5, 5), (5, 5), 
+            (6, 4), (6, 4),
+            (2, 2) # Avoid Erros 
+        ]
+
         self.screen_w = 1280
         self.screen_h = 720
         self.cell_size = 0 
@@ -31,6 +57,9 @@ class Game:
         self.victory_level = False
         self.victory = False
         self.show_maze = False
+
+        self.time_paused = 0
+        self.timer_is_frozen = False
 
         self.puntuacion = 0
         self.level = 1
@@ -190,7 +219,10 @@ class Game:
         if self.counter_cell_to_win == self.cell_visited and not self.victory_level and not self.victory:
             self.victory_level = True
             self.puntuacion += ((self.time - self.actual_time) // 1000) * 2
-            self.timer_next_level = self.actual_time + 3000       
+            self.timer_next_level = self.actual_time + 4000  
+
+            self.time_paused = (self.time - self.actual_time) // 1000
+            self.timer_is_frozen = True
 
     def reset(self, time, life, max_level):
         self.time = pygame.time.get_ticks() + time
@@ -203,10 +235,18 @@ class Game:
         self.result = ""
 
     def data_screen(self, screen):
-        texto_reloj = self.font_timer.render(f"Time: {max(0, ((self.time - self.actual_time) // 1000))} seg", True, (255, 255, 255))
+        if not self.timer_is_frozen:
+            if self.level == 1:
+                restante_ms = (self.time - self.actual_time) // 1000
+            else:
+                restante_ms = (self.time - self.actual_time + 3000) // 1000
+        else:
+            restante_ms = self.time_paused
+
+        texto_reloj = self.font_timer.render(f"Time: {max(0, restante_ms)} seg", True, (255, 255, 255))
         texto_vida = self.font_timer.render(f"Life(s): {self.life}", True, (255, 255, 255))
         texto_score = self.font_timer.render(f"Score: {self.puntuacion}", True, (255, 255, 255))
-        texto_name = self.font_timer.render(f"Name: Jossed", True, (255, 255, 255))
+        texto_name = self.font_timer.render(f"Name: {self.name}", True, (255, 255, 255))
         texto_level = self.font_timer.render(f"Level: {self.level}/{self.max_level}", True, (255, 255, 255))
 
         if self.victory:
@@ -236,8 +276,9 @@ class Game:
                 texto_timer = self.font_timer.render(f"Memorize: {segundos_restantes + 1}", True, (255, 255, 255))
                 screen.blit(texto_timer, (20, 20))
             else:
-                self.show_maze = False
                 self.time += 6000
+                self.timer_is_frozen = False
+                self.show_maze = False
         else:
             if not self.defeat:
                 self.draw_maze_to_solve(screen)
@@ -255,7 +296,17 @@ class Game:
                             screen.blit(texto_timer, (20, 220))
                         else:
                             self.level += 1
-                            self.create_unicursal_maze(4 + (self.level // 2), 3, 5)
+                            if self.max_level == 5:
+                                w, h = self.easy_levels[self.level]
+                                self.create_unicursal_maze(w, h, 5)
+                            elif self.max_level == 10:
+                                self.time += 4000
+                                w, h = self.medium_levels[self.level]
+                                self.create_unicursal_maze(w, h, 4)
+                            elif self.max_level == 8:
+                                self.time += 9000
+                                w, h = self.hard_levels[self.level]
+                                self.create_unicursal_maze(w, h, 3)
             else:
                 if self.actual_time < self.timer:
                     title_losing.draw(screen)

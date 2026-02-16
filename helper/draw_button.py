@@ -15,7 +15,7 @@ class Button(pygame.sprite.Sprite):
         pos = pygame.mouse.get_pos()
 
         if event.type == pygame.MOUSEMOTION:
-            if self.rect.collidepoint(event.pos):
+            if self.rect.collidepoint(pos):
                 self.image = pygame.image.load(self.image_hover_source).convert_alpha()
             else:
                 self.image = pygame.image.load(self.original_source).convert_alpha()
