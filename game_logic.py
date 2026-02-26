@@ -292,7 +292,7 @@ class Game:
                             title_winning.draw(screen)
 
                             segundos_restantes = (self.timer_next_level - self.actual_time) // 1000
-                            texto_timer = self.font_timer.render(f"Continue: {segundos_restantes + 1} seg", True, (255, 255, 255))
+                            texto_timer = self.font_timer.render(f"Continua en: {segundos_restantes + 1} seg", True, (255, 255, 255))
                             screen.blit(texto_timer, (20, 220))
                         else:
                             self.level += 1
