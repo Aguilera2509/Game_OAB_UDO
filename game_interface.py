@@ -43,13 +43,13 @@ class Windows:
         self.title_init = Titles(138, 19, "src/img_titles_background/init.png")
 
         # Botones Lobby
-        options_button = Button(140, 375, "src/img_button/options_button.png", "src/img_button/options_button_hover.png", "OPTIONS")
-        start_button = Button(490, 355, "src/img_button/start_button.png", "src/img_button/start_button_hover.png", "USERNAME")
-        exit_button = Button(900, 370, "src/img_button/exit_button.png", "src/img_button/exit_button_hover.png", "QUIT")
+        options_button = Button(140, 328, "src/img_button/options_button.png", "src/img_button/options_button_hover.png", "OPTIONS")
+        start_button = Button(490, 330, "src/img_button/start_button.png", "src/img_button/start_button_hover.png", "USERNAME")
+        exit_button = Button(900, 330, "src/img_button/exit_button.png", "src/img_button/exit_button_hover.png", "QUIT")
         self.all_lobby_buttons.add(options_button, start_button, exit_button)
 
         # Titulo Pantalla Dificultad
-        self.title_difficulty = Titles(350, 22, "src/img_titles_background/difficulty.png")
+        self.title_difficulty = Titles(300, 22, "src/img_titles_background/difficulty.png")
 
         # Botones Seleccionar Dificultad
         easy_button = Button(140, 330, "src/img_button/easy_button.png", "src/img_button/easy_button_hover.png", "EASY")
@@ -64,13 +64,13 @@ class Windows:
         self.all_options_buttons.add(back_button)
 
         # Titulo Perdiste y Ganando
-        self.title_losing = Titles(380, 22, "src/img_titles_background/losing.png")
-        self.title_win = Titles(372, 16, "src/img_titles_background/winning.png")
+        self.title_losing = Titles(270, 22, "src/img_titles_background/losing.png")
+        self.title_win = Titles(250, 16, "src/img_titles_background/winning.png")
 
         # Botones Pantalla Derrota
         try_again = Button(430, 450, "src/img_button/try_again.png", "src/img_button/try_again_hover.png", "RETRY")
         self.retry = ""
-        back_button_defeat = Button(500, 550,  "src/img_button/back_button.png",  "src/img_button/back_button_hover.png", "MENU_DIFFICULTY")
+        back_button_defeat = Button(495, 550,  "src/img_button/back_button.png",  "src/img_button/back_button_hover.png", "MENU_DIFFICULTY")
         self.all_win_defeat_buttons.add(try_again, back_button_defeat)
 
         # Manejar volumen del juego
@@ -193,8 +193,8 @@ class Windows:
 
                 self.surface.blit(self.img_option, (0, 0))
 
-                text_choose_name = self.font.render("Type a username:", True, (255, 255, 255))
-                self.surface.blit(text_choose_name, (540, 290))
+                text_choose_name = self.font.render("Nombre de Usuario: ", True, (255, 255, 255))
+                self.surface.blit(text_choose_name, (530, 290))
                 text_surface = self.font.render(self.game.name, True, (255, 255, 255))
                 self.surface.blit(text_surface, (self.input_text.x + 5, self.input_text.y + 5))
                 self.input_text.w = max(280, text_surface.get_width() + 10) # Make Box-text stretching
