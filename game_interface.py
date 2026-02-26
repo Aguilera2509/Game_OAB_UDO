@@ -44,7 +44,7 @@ class Windows:
 
         # Botones Lobby
         options_button = Button(140, 328, "src/img_button/options_button.png", "src/img_button/options_button_hover.png", "OPTIONS")
-        start_button = Button(490, 330, "src/img_button/start_button.png", "src/img_button/start_button_hover.png", "USERNAME")
+        start_button = Button(460, 330, "src/img_button/start_button.png", "src/img_button/start_button_hover.png", "USERNAME")
         exit_button = Button(900, 330, "src/img_button/exit_button.png", "src/img_button/exit_button_hover.png", "QUIT")
         self.all_lobby_buttons.add(options_button, start_button, exit_button)
 
