@@ -243,11 +243,11 @@ class Game:
         else:
             restante_ms = self.time_paused
 
-        texto_reloj = self.font_timer.render(f"Time: {max(0, restante_ms)} seg", True, (255, 255, 255))
-        texto_vida = self.font_timer.render(f"Life(s): {self.life}", True, (255, 255, 255))
-        texto_score = self.font_timer.render(f"Score: {self.puntuacion}", True, (255, 255, 255))
-        texto_name = self.font_timer.render(f"Name: {self.name}", True, (255, 255, 255))
-        texto_level = self.font_timer.render(f"Level: {self.level}/{self.max_level}", True, (255, 255, 255))
+        texto_reloj = self.font_timer.render(f"Tiempo: {max(0, restante_ms)} seg", True, (255, 255, 255))
+        texto_vida = self.font_timer.render(f"Vidas: {self.life}", True, (255, 255, 255))
+        texto_score = self.font_timer.render(f"Puntaje: {self.puntuacion}", True, (255, 255, 255))
+        texto_name = self.font_timer.render(f"Nombre: {self.name}", True, (255, 255, 255))
+        texto_level = self.font_timer.render(f"Nivel: {self.level}/{self.max_level}", True, (255, 255, 255))
 
         if self.victory:
             screen.blit(texto_vida, (540, 260))
@@ -273,7 +273,7 @@ class Game:
                 self.draw_maze(screen)
                         
                 segundos_restantes = (self.maze_timeout - self.actual_time) // 1000
-                texto_timer = self.font_timer.render(f"Memorize: {segundos_restantes + 1}", True, (255, 255, 255))
+                texto_timer = self.font_timer.render(f"¡Memoriza!: {segundos_restantes + 1}", True, (255, 255, 255))
                 screen.blit(texto_timer, (20, 20))
             else:
                 self.time += 6000
