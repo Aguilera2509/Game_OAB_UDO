@@ -174,11 +174,11 @@ class Game(GameBase):
                     self.retry = "EASY"
                 elif new_state == "MEDIUM":
                     self.reset(59, 3, 10)
-                    self.start_new_level(4, 3, 4)
+                    self.start_new_level(4, 3, 4, 0.9)
                     self.retry = "MEDIUM"
                 elif new_state == "HARD":
                     self.reset(43, 1, 8)
-                    self.start_new_level(4, 3, 3)
+                    self.start_new_level(4, 3, 3, 0.8)
                     self.retry = "HARD"
 
 
@@ -329,6 +329,7 @@ class Game(GameBase):
             remove_walls(start_x, start_y)
 
             if cells_visited >= (total_cells * min_coverage):
+
                 size = int(self.cell_size * 0.9)
                 self.img_empty = pygame.transform.scale(self.img_empty, (size, size))
                 self.img_wrong = pygame.transform.scale(self.img_wrong, (size, size))
@@ -346,22 +347,7 @@ class Game(GameBase):
                 self.cell_visited = cells_visited
 
                 return self.maze
-
-
-        """Renderizado en la superficie inyectada por el motor."""
-        # 1. Limpiar pantalla con colores oficiales
-        self.surface.fill(COLORS["carbon_oscuro"])
-        
-        if self.show_maze:
-            self.render_maze_full()
-            self.draw_text(f"Memoriza!", (20, 20))
-        else:
-            self.render_maze_hidden()
             
-        # 2. Dibujar UI
-        self.draw_text(f"Puntos: {self.puntuacion}", (1100, 20))
-        self.draw_text(f"Vidas: {self.life}", (1100, 60))
-
     def handle_events(self, events: list[pygame.event.Event]) -> None:
         pos_mouse = pygame.mouse.get_pos()
 
@@ -437,13 +423,11 @@ class Game(GameBase):
             w, h = self.easy_levels[self.level]
             self.start_new_level(w, h, 5)
         elif self.max_level == 10:
-            self.time += 4000
             w, h = self.medium_levels[self.level]
-            self.start_new_level(w, h, 4)
+            self.start_new_level(w, h, 4, 0.9)
         elif self.max_level == 8:
-            self.time += 9000
             w, h = self.hard_levels[self.level]
-            self.start_new_level(w, h, 3)
+            self.start_new_level(w, h, 3, 0.8)
 
     def update(self, dt: float):
         self.actual_time = pygame.time.get_ticks()
@@ -454,7 +438,12 @@ class Game(GameBase):
             if self.show_maze:
 
                 if self.actual_time >= self.maze_timeout:
-                    self.time += 6000
+                    if self.result == "EASY":
+                        self.time += 6000 if self.level == 1 else 9000
+                    elif self.result == "MEDIUM":
+                        self.time += 6000 if self.level == 1 else 13000
+                    else:
+                        self.time += 6000 if self.level == 1 else 16000
                     self.timer_is_frozen = False
                     self.show_maze = False
 

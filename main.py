@@ -8,7 +8,7 @@ if not pygame.get_init():
     pygame.font.init()
 
 meta = GameMetadata(
-        title = "Recuerdo de Luces",
+        title = "Maze: Light-Trace",
         description= "Juego donde se tiene que memorizar un camino y recrearlo",
         authors= ["Aguilera Jose", "Materano Fabiana", "Betancourt Kerlyannes", "Figueroa Adrian"],
         group_number= 1
