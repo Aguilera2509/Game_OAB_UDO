@@ -153,6 +153,8 @@ class Game(GameBase):
             self.handle_volume.handle_events()
         elif self.result == "DEFEAT" or self.result == "VICTORY":
             state_menu = self.all_win_defeat_buttons
+        elif self.result == "QUIT":
+            self._stop_context()
 
         if state_menu:
             for event_btn in state_menu:
@@ -492,10 +494,10 @@ class Game(GameBase):
         
         # Diccionario de etiquetas para evitar repetición
         labels = {
-            "time": f"Tiempo: {max(0, restante_ms)} seg",
-            "live":  f"Vida(s): {self.life}",
-            "score": f"Puntuacion: {self.puntuacion}",
-            "name":  f"Nombre: {self.name}",
+            "time": f"Time: {max(0, restante_ms)} seg",
+            "live":  f"Live(s): {self.life}",
+            "score": f"Score: {self.puntuacion}",
+            "name":  f"Name: {self.name}",
             "level": f"Level: {self.level}/{self.max_level}"
         }
 
