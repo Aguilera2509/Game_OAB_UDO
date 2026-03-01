@@ -7,14 +7,7 @@ if not pygame.get_init():
     pygame.mixer.init()
     pygame.font.init()
 
-meta = GameMetadata(
-        title = "Maze: Light-Trace",
-        description= "Juego donde se tiene que memorizar un camino y recrearlo",
-        authors= ["Aguilera Jose", "Materano Fabiana", "Betancourt Kerlyannes", "Figueroa Adrian"],
-        group_number= 1
-)
-
-game = Game(meta)
+game = Game()
 
 if __name__ == "__main__":
     game.run_preview()

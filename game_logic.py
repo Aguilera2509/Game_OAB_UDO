@@ -7,8 +7,15 @@ from helper.handle_volume import Volume
 from enfocate import GameBase, GameMetadata, COLORS
 
 class Game(GameBase):
-    def __init__(self, metada: GameMetadata):
-        super().__init__(metada)
+    def __init__(self):
+        meta = GameMetadata(
+            title = "Maze: Light-Trace",
+            description= "Juego donde se tiene que memorizar un camino y recrearlo",
+            authors= ["Aguilera Jose", "Materano Fabiana", "Betancourt Kerlyannes", "Figueroa Adrian"],
+            group_number= 1
+        )
+        
+        super().__init__(meta)
 
         """
         LOGICA INTERFAZ
